@@ -22,7 +22,19 @@ function createNewNote(body, notesArray) {
   return note;
 }
 
+// app.delete('/api/notes', (req, res) => {
+//   var removeNote = getTodoById(parseInt(req.params.id));
+//   if (todo) {
+//     removeTodo(parseInt(req.params.id));
+//     res.send("ok");
+//   } else {
+//     res.status(400).send("record not found");
+//   }
+// });
+
+
 app.post('/api/notes', (req, res) => {
+  req.body.id = notes.length.toString();
   const note = createNewNote(req.body, notes);
   res.json(note);
 });
