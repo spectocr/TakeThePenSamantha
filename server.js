@@ -11,7 +11,21 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+function createNewNote(body, notesArray) {
+  const note = body;
+  notesArray.push(note)
+  // return finished code to post route for response
+  fs.writeFileSync(
+    path.join(__dirname, './db/db.json'),
+    JSON.stringify({ notes: notesArray }, null, 2)
+  );
+  return note;
+}
 
+app.post('/api/notes', (req, res) => {
+  const note = createNewNote(req.body, notes);
+  res.json(note);
+});
 
 app.get('/api/notes', (req, res) => {
   let results = notes;

@@ -1,13 +1,20 @@
 {
-    "notes":[
+  "notes": [
     {
-        "title":"Test Title",
-        "text":"Test text"
+      "title": "Test Title",
+      "text": "Test text"
     },
     {
-        "title":"yasss mince Title",
-        "text":"Test text"
+      "title": "yasss mince Title",
+      "text": "Test text"
+    },
+    {
+      "title": "fdsf",
+      "text": "fdsf"
+    },
+    {
+      "title": "Helllllllss checking account",
+      "text": "yasss burrrrrn"
     }
-    
-]
+  ]
 }
