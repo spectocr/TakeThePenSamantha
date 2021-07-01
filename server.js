@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const express = require('express');
 const { notes } = require('./db/db');
+const { v4: uuidv4 } = require('uuid');
 
 
 const PORT = process.env.PORT || 3001;
@@ -22,26 +23,53 @@ function createNewNote(body, notesArray) {
   return note;
 }
 
-// app.delete('/api/notes/:id', (req, res) => {
-//   var removeNote = req.params.id;
-//   if (removeNote) {
-//     removeNote(parseInt(req.params.id));
-//     res.send("ok");
-//   } else {
-//     res.status(400).send("record not found");
-//   }
-// });
+function findById(id, notesArray) {
+  const narray = JSON.parse(notesArray);
+  //console.log(narray.notes);
+  const result = narray.notes.filter(note => note.id !== id);
+  console.log(result);
+  //notesArray.push(result)
+  // return finished code to post route for response
+  fs.writeFileSync(
+    path.join(__dirname, './db/db.json'),
+    JSON.stringify({ notes: result }, null, 2)
+    
+  );
+  
+  return result;
+}
+
+
+app.delete('/api/notes/:id', (req, res) => {
+  var removedNote = req.params.id;
+  //console.log(removedNote);
+  if (removedNote) {
+    const notes = fs.readFileSync("db/db.json", "utf8");
+      JSON.parse(notes, null, 2);
+      //console.log(notes);
+      findById(removedNote, notes);
+      //console.log(notes);
+      //return result;
+
+      
+      // have notes as an array, need to filter the array of notes to remove the note with the id that matches the 
+      //id of req.parms.id
+      // after that we need to write to the file again with the filtered list.
+      res.send("ok");
+  } else {
+    res.status(400).send("record not found");
+  }
+});
 
 
 app.post('/api/notes', (req, res) => {
-  req.body.id = notes.length.toString();
+  req.body.id = uuidv4();
   const note = createNewNote(req.body, notes);
   res.json(note);
 });
 
 app.get('/api/notes', (req, res) => {
   let results = notes;
-  console.log(req.query)
   res.json(results);
 });
 
