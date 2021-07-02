@@ -47,7 +47,7 @@ app.delete('/api/notes/:id', (req, res) => {
     const notes = fs.readFileSync("db/db.json", "utf8");
       JSON.parse(notes, null, 2);
       //console.log(notes);
-      findById(removedNote, notes);
+      let results = findById(removedNote, notes);
       //console.log(notes);
       //return result;
 
@@ -55,7 +55,8 @@ app.delete('/api/notes/:id', (req, res) => {
       // have notes as an array, need to filter the array of notes to remove the note with the id that matches the 
       //id of req.parms.id
       // after that we need to write to the file again with the filtered list.
-      res.send("ok");
+      
+      res.json(results);
   } else {
     res.status(400).send("record not found");
   }
